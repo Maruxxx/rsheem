@@ -46,7 +46,7 @@ export const s = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 3,
         height: 50,
-        width: 200,
+        width: 180,
         marginBottom: 10,
     },  
 
@@ -67,7 +67,7 @@ export const s = StyleSheet.create({
         display: 'flex', 
         justifyContent: 'center',
         alignItems: 'center',
-        width: 50,
+        width: 45,
         aspectRatio: 1 / 1,
         borderColor: 'green',
         borderStyle: 'solid',
