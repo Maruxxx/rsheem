@@ -38,12 +38,42 @@ export const s = StyleSheet.create({
     },
 
     points:{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
         borderColor: 'green',
         borderStyle: 'solid',
         borderWidth: 3,
         height: 50,
         width: 200,
         marginBottom: 10,
+    },  
+
+    point:{
+        display: 'flex', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 45,
+        aspectRatio: 1 / 1,
+        borderColor: 'green',
+        borderStyle: 'solid',
+        borderWidth: 3,
+        borderRadius: 30,
+        backgroundColor: 'black'
+    },  
+
+    point5:{
+        display: 'flex', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 50,
+        aspectRatio: 1 / 1,
+        borderColor: 'green',
+        borderStyle: 'solid',
+        borderWidth: 3,
+        borderRadius: 30,
+        backgroundColor: 'white'
     },  
 
     total:{
