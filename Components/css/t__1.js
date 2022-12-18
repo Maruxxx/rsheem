@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 export const s = StyleSheet.create({
     
-    container:{
+    container:{ 
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -10,44 +10,46 @@ export const s = StyleSheet.create({
         color: 'white',
         height: '35%',
         width: '90%',
-        borderColor: 'red',
-        borderStyle: 'solid',
-        borderWidth: 3,
-        marginBottom: 10
+        // borderColor: 'red',
+        // borderStyle: 'solid',
+        // borderWidth: 3,
+        marginBottom: 20,
     },
 
     tableWrap:{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 30,
     },
 
     squares:{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         height: 40,
         width: 300,
-        marginBottom: 10,
-        borderColor: 'red',
-        borderStyle: 'solid',
-        borderWidth: 3,
+        marginBottom: 20,
+        // borderColor: 'red',
+        // borderStyle: 'solid',
+        // borderWidth: 3,
         marginHorizontal: 10,
+        marginVertical: 10,
     },
 
     points:{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        borderColor: 'green',
-        borderStyle: 'solid',
-        borderWidth: 3,
+        // borderColor: 'green',
+        // borderStyle: 'solid',
+        // borderWidth: 3,
         height: 50,
-        width: 180,
-        marginBottom: 10,
+        width: 200,
+        marginVertical: 15,
     },  
 
     point:{
@@ -56,32 +58,35 @@ export const s = StyleSheet.create({
         alignItems: 'center',
         width: 45,
         aspectRatio: 1 / 1,
-        borderColor: 'green',
+        borderColor: 'white',
         borderStyle: 'solid',
         borderWidth: 3,
         borderRadius: 30,
-        backgroundColor: 'black'
+        backgroundColor: 'black',
     },  
 
     point5:{
         display: 'flex', 
         justifyContent: 'center',
         alignItems: 'center',
-        width: 45,
-        aspectRatio: 1 / 1,
-        borderColor: 'green',
-        borderStyle: 'solid',
-        borderWidth: 3,
-        borderRadius: 30,
-        backgroundColor: 'white'
+        width: 100,
+        height: 50,
+        // borderColor: 'green',
+        // borderStyle: 'solid',
+        // borderWidth: 3,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        marginHorizontal: 20,
     },  
 
     total:{
         color: 'white',
-        marginBottom: 10,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        fontSize: 20,
     },
     undo:{
-        color: 'white'
+        color: 'red'
     },
 
     text: {

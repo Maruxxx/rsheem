@@ -3,6 +3,8 @@ import React from 'react'
 import {s} from './css/t__2'
 import Square from './Square'
 
+import { Audio } from 'expo-av';
+
 const Table__two = () => {
     const [count1, setCount1] = React.useState(0)
     const [count2, setCount2] = React.useState(0)
@@ -15,6 +17,74 @@ const Table__two = () => {
     const [count8, setCount8] = React.useState(0)
 
     const t = count1 + count2 + count3 + count4 + count5 + count6 + count7 + count8
+
+    const [sound, setSound] = React.useState();
+
+    async function playSound() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/01.mp3')
+        );
+        setSound(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return sound
+          ? () => {
+              console.log('Unloading Sound');
+              sound.unloadAsync();
+            }
+          : undefined;
+      }, [sound]);
+    
+      
+      
+      
+      const [sound2, setSound2] = React.useState();
+
+      async function playSound2() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/02.mp3')
+        );
+        setSound2(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return sound2
+          ? () => {
+              console.log('Unloading Sound');
+              sound2.unloadAsync();
+            }
+          : undefined;
+      }, [sound2]);
+    
+      
+      
+      const [sound5, setSound5] = React.useState();
+    
+      async function playSound5() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/05.mp3')
+        );
+        setSound5(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return sound5
+          ? () => {
+              console.log('Unloading Sound');
+              sound5.unloadAsync();
+            }
+          : undefined;
+      }, [sound5]);
 
     const Undo = () => {
         if (count1 == 0) {
@@ -178,7 +248,7 @@ const Table__two = () => {
     return (
     <View style={s.container}>
       <View style={s.tableWrap}>
-        <Text style={s.total}>[{t}]Team B</Text>
+        <Text style={s.total}><Text style={{color: 'cyan'}}>[ {t} ] </Text>Team <Text style={{color: 'cyan'}}>B</Text></Text>
         <View style={s.squares}>
             <Square count={count1}/>
             <Square count={count2}/>
@@ -192,11 +262,13 @@ const Table__two = () => {
             <Square count={count8}/>
         </View>
         <View style={s.points}>
-            <TouchableOpacity onPress={Counter1} style={s.point}><Text style={{ color:'white',}}>1</Text></TouchableOpacity>
-            <TouchableOpacity onPress={Counter5} style={s.point5}><Text style={{ color:'black',}}>5</Text></TouchableOpacity>
-            <TouchableOpacity onPress={Counter2} style={s.point}><Text style={{ color:'white',}}>2</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {Counter1(), playSound()}} style={s.point}><Text style={{ color:'white',}}>1</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {Counter5(), playSound5()}} style={s.point5}><Text style={{ color:'black',}}>5</Text></TouchableOpacity>
+            <TouchableOpacity onPress={Undo} style={s.undo}>
+                <Feather name="x-circle" size={45} color="red" />
+            </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={Undo} style={s.undo}><Text style={{ color:'white',}}>Undo</Text></TouchableOpacity>
+        <TouchableOpacity onPress={Undo} style={s.undo}><Text style={{ color:'red', fontSize: 18}}>Undo</Text></TouchableOpacity>
       </View>
     </View>
   )

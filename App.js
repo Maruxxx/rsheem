@@ -9,9 +9,9 @@ import Table__two from './Components/Table__two';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Logo />
       <Table__one />
       <Table__two />
+      <StatusBar style='auto'/>
     </View>
   );
 }

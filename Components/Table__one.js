@@ -1,8 +1,12 @@
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View, Modal } from 'react-native'
 import {s} from './css/t__1'
 // import { point1 } from './functions/couting'
 import Square from './Square'
 import React from 'react'
+import { Feather } from '@expo/vector-icons';
+
+import { Audio } from 'expo-av';
+
 
 const Table__one = () => {
     const [count1, setCount1] = React.useState(0)
@@ -17,7 +21,80 @@ const Table__one = () => {
 
     const t = count1 + count2 + count3 + count4 + count5 + count6 + count7 + count8
 
+    
+    const [sound, setSound] = React.useState();
+    
+    async function playSound() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/01.mp3')
+        );
+        setSound(sound);
+        
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+    
+    React.useEffect(() => {
+        return sound
+        ? () => {
+            console.log('Unloading Sound');
+            sound.unloadAsync();
+        }
+        : undefined;
+    }, [sound]);
+
+      
+      
+      const [sound2, setSound2] = React.useState();
+
+      async function playSound2() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/02.mp3')
+        );
+        setSound2(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return sound2
+          ? () => {
+              console.log('Unloading Sound');
+              sound2.unloadAsync();
+            }
+          : undefined;
+      }, [sound2]);
+    
+      
+      
+      const [sound5, setSound5] = React.useState();
+    
+      async function playSound5() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/05.mp3')
+        );
+        setSound5(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return sound5
+          ? () => {
+              console.log('Unloading Sound');
+              sound5.unloadAsync();
+            }
+          : undefined;
+      }, [sound5]);
+
+
+
+
+
     const Undo = () => {
+
         if (count1 == 0) {
             setCount1(count1)
         } else if ((count1 == 1 || count1 <= 5) && count2 == 0) {
@@ -179,7 +256,7 @@ const Table__one = () => {
     return (
     <View style={s.container}>
       <View style={s.tableWrap}>
-        <Text style={s.total}>[{t}] Team A</Text>
+        <Text style={s.total}><Text style={{color: 'hotpink'}}>[ {t} ] </Text>Team <Text style={{color: 'hotpink'}}>A</Text></Text>
         <View style={s.squares}>
             <Square count={count1}/>
             <Square count={count2}/>
@@ -193,11 +270,13 @@ const Table__one = () => {
             <Square count={count8}/>
         </View>
         <View style={s.points}>
-            <TouchableOpacity onPress={Counter1} style={s.point}><Text style={{ color:'white',}}>1</Text></TouchableOpacity>
-            <TouchableOpacity onPress={Counter5} style={s.point5}><Text style={{ color:'black',}}>5</Text></TouchableOpacity>
-            <TouchableOpacity onPress={Counter2} style={s.point}><Text style={{ color:'white',}}>2</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {Counter1(); playSound();}} style={s.point}><Text style={{ color:'white',}}>1</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {Counter5(); playSound5()}} style={s.point5}><Text style={{ color:'black',}}>5</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => {Counter2(); playSound2();}} style={s.point}><Text style={{ color:'white',}}>2</Text></TouchableOpacity>
+            <TouchableOpacity onPress={Undo} style={s.undo}>
+                <Feather name="x-circle" size={30} color="red" />
+            </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={Undo} style={s.undo}><Text style={{ color:'white',}}>Undo</Text></TouchableOpacity>
       </View>
     </View>
   )
