@@ -1,5 +1,6 @@
-import { TouchableOpacity, Text, View } from 'react-native'
+import { TouchableOpacity, Text, View, Modal, TextInput } from 'react-native'
 import React from 'react'
+import {styles} from './css/modal'
 import {s} from './css/t__2'
 import Square from './Square'
 import { Feather } from '@expo/vector-icons';
@@ -228,18 +229,49 @@ const Table__two = () => {
 
 
       const cinco = React.useRef(null);
+
+      const [modalVisible, setModalVisible] = React.useState(false)
+    const [teamName, setTeamName] = React.useState('Team B')
     
     return (
     <View style={s.container}>
+        <Modal
+        
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+        >
+            <View style={styles.container}>
+                   <LottieView
+                        style={{width: 200,}}
+                        autoPlay
+                        source={require('../assets/c_banner.json')}
+                    />
+                    <TextInput
+                    value={teamName}
+                    onChangeText={(e) => setTeamName(e)}
+                    placeholder={'Write your team name!'}
+                    style={styles.input}
+                    />
+                    <TouchableOpacity style={styles.submit} onPress={() => {setModalVisible(!modalVisible)}}>
+                        <Feather name="check" size={28} color="black" />
+                    </TouchableOpacity>
+                </View>
+        </Modal>
+        
         <LottieView
         ref={animation}
-        loop={false}
+        loop={true}
         source={require('../assets/works.json')}
       />
       <View style={s.tableWrap}>
         <View style={s.totalWrap}>
             <Text style={{color: 'cyan', fontWeight: 'bold',fontSize: 20,}}>[ {t} ] </Text>
-            <Text style={s.total}>{teamb}</Text>
+            <Text onPress={() => setModalVisible(!modalVisible)} style={s.total}>{teamName}</Text>
         </View>
             <View style={{width: 200, height: 10, marginVertical: 13}}>
                 <LottieView
@@ -262,7 +294,7 @@ const Table__two = () => {
         
         <View style={s.points}>
             <TouchableOpacity onPress={() => {Counter1(), playSound()}} style={s.point}><Text style={{ color:'white', fontSize: 18, fontWeight: 'bold'}}>1</Text></TouchableOpacity>
-            <TouchableOpacity  onPress={() => {Counter5(), playSound5(); cinco.current?.play()}} style={s.point5}>
+            <TouchableOpacity activeOpacity={0.1}  onPress={() => {Counter5(), playSound5(); cinco.current?.play()}} style={s.point5}>
                 <MaterialCommunityIcons name="numeric-5" size={40} color="black" />
                 <LottieView
                     style={{ width: 150, height: 150, position: 'absolute'}}

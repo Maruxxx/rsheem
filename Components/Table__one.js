@@ -1,18 +1,16 @@
-import { SafeAreaView, Text, TouchableOpacity, View, TextInput, KeyboardAvoidingView  } from 'react-native'
+import { SafeAreaView, Text, TouchableOpacity, View, TextInput, Modal, Alert  } from 'react-native'
 import {s} from './css/t__1'
+import {styles} from './css/modal'
 // import { point1 } from './functions/couting'
 import Square from './Square'
 import React from 'react'
-import { Feather } from '@expo/vector-icons';
+import { Feather, Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { Audio } from 'expo-av';
-
+import { Audio} from 'expo-av';
 
 const Table__one = () => {
 
-    const [teama, setTeamA] = React.useState('Team A')
-    const [teamb, setTeamB] = React.useState('Team B')
 
 
     const [count1, setCount1] = React.useState(0)
@@ -211,19 +209,76 @@ const Table__one = () => {
     const cinco = React.useRef(null);
 
 
+    const [modalVisible, setModalVisible] = React.useState(false)
+    const [teamName, setTeamName] = React.useState('Team A')
+
+    const [resetModal, setResetModal] = React.useState(false)
 
     return (
     <SafeAreaView style={s.container}>
+        <TouchableOpacity onPress={() => {setResetModal(!resetModal)}} style={s.reset}>
+            <Fontisto name="undo" size={24} color="white" />
+        </TouchableOpacity>
+        <Modal
+        
+        animationType="slide"
+        transparent={true}
+        visible={resetModal}
+        onRequestClose={() => {
+          setResetModal(false);
+        }}
+        >
+            <View style={{ flex: 1, display: 'flex', justifyContent:'center', alignItems: 'center', backgroundColor: 'black', opacity: .9 }}>
+                    <TouchableOpacity style={[styles.submit, {marginBottom: 10, width: 150, height: 50}]} onPress={
+                        () => {
+                            
+                        }
+                    }>
+                        <Text style={{color: 'black', fontSize: 18}}>Reset</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.submit, {backgroundColor: 'black', borderColor: 'red', borderStyle:'solid', borderWidth:1, width: 100}]} onPress={() => {setResetModal(false)}}>
+                        <Text style={{color: 'red'}}>Cancel</Text>
+                    </TouchableOpacity>
+                </View>
+        </Modal>
+        
+        <Modal
+        
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+        >
+            <View style={styles.container}>
+                   <LottieView
+                        style={{width: 200,}}
+                        autoPlay
+                        source={require('../assets/p_banner.json')}
+                    />
+                    <TextInput
+                    value={teamName}
+                    onChangeText={(e) => setTeamName(e)}
+                    placeholder={'Write your team name!'}
+                    style={styles.input}
+                    />
+                    <TouchableOpacity style={styles.submit} onPress={() => {setModalVisible(!modalVisible)}}>
+                        <Feather name="check" size={28} color="black" />
+                    </TouchableOpacity>
+                </View>
+        </Modal>
+        
         <View>
             <LottieView
             ref={animation}
-            loop={false}
+            loop={true}
             source={require('../assets/works.json')}
         />
         <View style={s.tableWrap}>
             <View style={s.totalWrap}>
                 <Text style={{color: 'hotpink', fontWeight: 'bold',fontSize: 20,}}>[ {t} ] </Text>
-                <Text style={s.total}>{teama}</Text>
+                <Text onPress={() => setModalVisible(!modalVisible)} style={s.total}>{teamName}</Text>
             </View>
                 <View style={{width: 200, height: 10, marginVertical: 13}}>
                     <LottieView
@@ -245,7 +300,7 @@ const Table__one = () => {
             </View>
             <View style={s.points}>
                 <TouchableOpacity onPress={() => {Counter1(); playSound();}} style={s.point}><Text style={{ color:'white', fontSize: 18, fontWeight: 'bold'}}>1</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => {Counter5(); playSound5(); cinco.current?.play()}} style={s.point5}>
+                <TouchableOpacity on activeOpacity={0.1} onPress={() => {Counter5(); playSound5(); cinco.current?.play();}} style={s.point5}>
                     <MaterialCommunityIcons name="numeric-5" size={40} color="black" />
                     <LottieView
                         style={{ width: 150, height: 150, position: 'absolute'}}

@@ -2,6 +2,13 @@ import { StyleSheet } from "react-native"
 
 export const s = StyleSheet.create({
     
+    reset:{
+        position:'absolute',
+        top: -60,
+        right: 20,
+        opacity: 0.7
+    }, 
+
     container:{ 
         display: 'flex',
         flexDirection: 'column',
@@ -99,5 +106,12 @@ export const s = StyleSheet.create({
     text: {
         color: 'white'
     },
+
+    video:{
+        flex: 1,
+        position:'absolute',
+        width: '100%',
+        height:'100M'
+    }
 
 })
