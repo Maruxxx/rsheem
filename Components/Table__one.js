@@ -1,14 +1,20 @@
-import { Text, TouchableOpacity, View, Modal } from 'react-native'
+import { SafeAreaView, Text, TouchableOpacity, View, TextInput, KeyboardAvoidingView  } from 'react-native'
 import {s} from './css/t__1'
 // import { point1 } from './functions/couting'
 import Square from './Square'
 import React from 'react'
 import { Feather } from '@expo/vector-icons';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 import { Audio } from 'expo-av';
 
 
 const Table__one = () => {
+
+    const [teama, setTeamA] = React.useState('Team A')
+    const [teamb, setTeamB] = React.useState('Team B')
+
+
     const [count1, setCount1] = React.useState(0)
     const [count2, setCount2] = React.useState(0)
     const [count3, setCount3] = React.useState(0)
@@ -45,28 +51,6 @@ const Table__one = () => {
 
       
       
-      const [sound2, setSound2] = React.useState();
-
-      async function playSound2() {
-        console.log('Loading Sound');
-        const { sound } = await Audio.Sound.createAsync( require('../assets/02.mp3')
-        );
-        setSound2(sound);
-    
-        console.log('Playing Sound');
-        await sound.playAsync();
-    }
-
-      React.useEffect(() => {
-        return sound2
-          ? () => {
-              console.log('Unloading Sound');
-              sound2.unloadAsync();
-            }
-          : undefined;
-      }, [sound2]);
-    
-      
       
       const [sound5, setSound5] = React.useState();
     
@@ -90,7 +74,26 @@ const Table__one = () => {
       }, [sound5]);
 
 
+      const [winSound, setWinSound] = React.useState();
+    
+      async function playWinSound() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( require('../assets/win.mp3')
+        );
+        setWinSound(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
 
+      React.useEffect(() => {
+        return winSound
+          ? () => {
+              console.log('Unloading Sound');
+              winSound.unloadAsync();
+            }
+          : undefined;
+      }, [winSound]);
 
 
     const Undo = () => {
@@ -136,63 +139,7 @@ const Table__one = () => {
         }
     }
 
-    const Counter2 = () => {
-        // count1
-        if (count1 >= 0 && count1 < 4) {
-            setCount1(count1 + 2)
-        } else if (count1 == 4) {
-            setCount1(count1 + 1)
-            setCount2(count2 + 1)
-        } 
-        // count2
-        else if (count1 == 5 && (count2 >= 0 && count2 < 4)) {
-            setCount2(count2 + 2)
-        } else if (count2 == 4) {
-            setCount2(count2 + 1)
-            setCount3(count3 + 1)
-        } 
-        // count3
-        else if (count2 == 5 && (count3 >= 0 && count3 < 4)) {
-            setCount3(count3 + 2)
-        } else if (count3 == 4) {
-            setCount3(count3 + 1)
-            setCount4(count4 + 1)
-        } 
-        // count4
-        else if (count3 == 5 && (count4 >= 0 && count4 < 4)) {
-            setCount4(count4 + 2)
-        } else if (count4 == 4) {
-            setCount4(count4 + 1)
-            setCount5(count5 + 1)
-        } 
-        // count5
-        else if (count4 == 5 && (count5 >= 0 && count5 < 4)) {
-            setCount5(count5 + 2)
-        } else if (count5 == 4) {
-            setCount5(count5 + 1)
-            setCount6(count6 + 1)
-        } 
-        // count6
-        else if (count5 == 5 && (count6 >= 0 && count6 < 4)) {
-            setCount6(count6 + 2)
-        } else if (count6 == 4) {
-            setCount6(count6 + 1)
-            setCount7(count7 + 1)
-        } 
-        // count7
-        else if (count6 == 5 && (count7 >= 0 && count7 < 4)) {
-            setCount7(count7 + 2)
-        } else if (count7 == 4) {
-            setCount7(count7 + 1)
-            setCount8(count8 + 1)
-        } 
-        // count8
-        else if (count7 == 5 && (count8 >= 0 && count8 < 4)) {
-            setCount8(count8 + 2)
-        } else if (count8 == 4) {
-            setCount8(count8 + 1)
-        }
-    }
+   
 
     const Counter5 = () => {
         // count1
@@ -253,32 +200,67 @@ const Table__one = () => {
         
     }
 
+    const animation = React.useRef(null);
+    React.useEffect(() => {
+        if (t == 40) {
+            animation.current?.play()
+            playWinSound()
+        }
+      }, [t])
+
+    const cinco = React.useRef(null);
+
+
+
     return (
-    <View style={s.container}>
-      <View style={s.tableWrap}>
-        <Text style={s.total}><Text style={{color: 'hotpink'}}>[ {t} ] </Text>Team <Text style={{color: 'hotpink'}}>A</Text></Text>
-        <View style={s.squares}>
-            <Square count={count1}/>
-            <Square count={count2}/>
-            <Square count={count3}/>
-            <Square count={count4}/>
+    <SafeAreaView style={s.container}>
+        <View>
+            <LottieView
+            ref={animation}
+            loop={false}
+            source={require('../assets/works.json')}
+        />
+        <View style={s.tableWrap}>
+            <View style={s.totalWrap}>
+                <Text style={{color: 'hotpink', fontWeight: 'bold',fontSize: 20,}}>[ {t} ] </Text>
+                <Text style={s.total}>{teama}</Text>
+            </View>
+                <View style={{width: 200, height: 10, marginVertical: 13}}>
+                    <LottieView
+                            autoPlay
+                            source={require('../assets/pink.json')}
+                        />
+                </View>
+            <View style={s.squares}>
+                <Square count={count1}/>
+                <Square count={count2}/>
+                <Square count={count3}/>
+                <Square count={count4}/>
+            </View>
+            <View style={s.squares}>
+                <Square count={count5}/>
+                <Square count={count6}/>
+                <Square count={count7}/>
+                <Square count={count8}/>
+            </View>
+            <View style={s.points}>
+                <TouchableOpacity onPress={() => {Counter1(); playSound();}} style={s.point}><Text style={{ color:'white', fontSize: 18, fontWeight: 'bold'}}>1</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => {Counter5(); playSound5(); cinco.current?.play()}} style={s.point5}>
+                    <MaterialCommunityIcons name="numeric-5" size={40} color="black" />
+                    <LottieView
+                        style={{ width: 150, height: 150, position: 'absolute'}}
+                        ref={cinco}
+                        loop={false}
+                        source={require('../assets/cinco.json')}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={Undo} style={s.undo}>
+                    <Feather name="x-circle" size={45} color="red" />
+                </TouchableOpacity>
+            </View>
         </View>
-        <View style={s.squares}>
-            <Square count={count5}/>
-            <Square count={count6}/>
-            <Square count={count7}/>
-            <Square count={count8}/>
         </View>
-        <View style={s.points}>
-            <TouchableOpacity onPress={() => {Counter1(); playSound();}} style={s.point}><Text style={{ color:'white',}}>1</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => {Counter5(); playSound5()}} style={s.point5}><Text style={{ color:'black',}}>5</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => {Counter2(); playSound2();}} style={s.point}><Text style={{ color:'white',}}>2</Text></TouchableOpacity>
-            <TouchableOpacity onPress={Undo} style={s.undo}>
-                <Feather name="x-circle" size={30} color="red" />
-            </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

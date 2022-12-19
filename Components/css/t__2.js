@@ -21,6 +21,10 @@ export const s = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        
+        // borderColor: 'red',
+        // borderStyle: 'solid',
+        // borderWidth: 3,
         marginTop: 50,
     },
 
@@ -82,8 +86,15 @@ export const s = StyleSheet.create({
     total:{
         color: 'white',
         fontWeight: 'bold',
-        marginBottom: 20,
         fontSize: 20,
+    },
+
+    totalWrap:{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        
     },
     undo:{
         color: 'red'

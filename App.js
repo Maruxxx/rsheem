@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import Logo from './Components/Logo';
 import Table__one from './Components/Table__one';
 import Table__two from './Components/Table__two';
 

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const Square = ({count}) => {
-  const [active, setActive] = React.useState(false)
+  const [active, setActive] = React.useState(false);
 
   React.useEffect(() => {
     if (count >= 1 && count < 5) {
@@ -13,9 +13,11 @@ const Square = ({count}) => {
   }, [count])
   
   return (
+    <>
     <View style={active ? styles.activeSquare : styles.square}>
-        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18,}}>{count}</Text>
+        <Text style={active ? { color: 'red', fontWeight: 'bold', fontSize: 18,} : { color: 'white', fontWeight: 'bold', fontSize: 18,}  }>{count}</Text>
     </View>
+    </>
   )
 }
 
@@ -30,9 +32,9 @@ const styles = StyleSheet.create({
         aspectRatio: 1 / 1,
         borderColor: 'white',
         borderStyle: 'solid',
-        borderWidth: 3,
+        borderWidth: 1,
         borderRadius: 10,
-        marginRight: 15,
+        marginHorizontal: 8,
     },
     activeSquare: {
         display: 'flex',
@@ -42,8 +44,20 @@ const styles = StyleSheet.create({
         aspectRatio: 1 / 1,
         borderColor: 'red',
         borderStyle: 'solid',
-        borderWidth: 3,
+        borderWidth: 1,
         borderRadius: 10,
-        marginRight: 15, 
-    }
+        marginHorizontal: 8, 
+    }, 
+    // activeSquare: {
+    //     display: 'flex',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     width: 55,
+    //     aspectRatio: 1 / 1,
+    //     borderColor: 'red',
+    //     borderStyle: 'solid',
+    //     borderWidth: 1,
+    //     borderRadius: 10,
+    //     marginHorizontal: 8, 
+    // }, 
 })

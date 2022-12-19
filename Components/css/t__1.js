@@ -82,15 +82,22 @@ export const s = StyleSheet.create({
     total:{
         color: 'white',
         fontWeight: 'bold',
-        marginBottom: 20,
         fontSize: 20,
     },
+
+    totalWrap:{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        
+    },
     undo:{
-        color: 'red'
+        color: 'red',
     },
 
     text: {
         color: 'white'
-    }
+    },
 
 })
