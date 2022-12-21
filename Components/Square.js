@@ -15,7 +15,7 @@ const Square = ({count}) => {
   return (
     <>
     <View style={active ? styles.activeSquare : styles.square}>
-        <Text style={active ? { color: 'red', fontWeight: 'bold', fontSize: 18,} : { color: 'white', fontWeight: 'bold', fontSize: 18,}  }>{count}</Text>
+        <Text style={active ? { color: 'red', fontWeight: 'bold', fontSize: 20,} : { color: 'white', fontWeight: 'bold', fontSize: 20,}  }>{count}</Text>
     </View>
     </>
   )

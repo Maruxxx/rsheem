@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TouchableOpacity, View, TextInput, Modal, Alert  } from 'react-native'
+import { SafeAreaView, Text, TouchableOpacity, View, TextInput, Modal  } from 'react-native'
 import {s} from './css/t__1'
 import {styles} from './css/modal'
 // import { point1 } from './functions/couting'
@@ -9,8 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { Audio} from 'expo-av';
 
-const Table__one = () => {
-
+const Table__one = ({navigation}) => {
 
 
     const [count1, setCount1] = React.useState(0)
@@ -29,19 +28,16 @@ const Table__one = () => {
     const [sound, setSound] = React.useState();
     
     async function playSound() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync( require('../assets/01.mp3')
         );
         setSound(sound);
         
-        console.log('Playing Sound');
         await sound.playAsync();
     }
     
     React.useEffect(() => {
         return sound
         ? () => {
-            console.log('Unloading Sound');
             sound.unloadAsync();
         }
         : undefined;
@@ -53,19 +49,16 @@ const Table__one = () => {
       const [sound5, setSound5] = React.useState();
     
       async function playSound5() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync( require('../assets/05.mp3')
         );
         setSound5(sound);
     
-        console.log('Playing Sound');
         await sound.playAsync();
     }
 
       React.useEffect(() => {
         return sound5
           ? () => {
-              console.log('Unloading Sound');
               sound5.unloadAsync();
             }
           : undefined;
@@ -75,23 +68,57 @@ const Table__one = () => {
       const [winSound, setWinSound] = React.useState();
     
       async function playWinSound() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync( require('../assets/win.mp3')
         );
         setWinSound(sound);
     
-        console.log('Playing Sound');
         await sound.playAsync();
     }
 
       React.useEffect(() => {
         return winSound
           ? () => {
-              console.log('Unloading Sound');
               winSound.unloadAsync();
             }
           : undefined;
       }, [winSound]);
+
+
+      const [fiveSound, setFive] = React.useState();
+    
+      async function playFiveSound() {
+        const { sound } = await Audio.Sound.createAsync( require('../assets/35.mp3')
+        );
+        setFive(sound);
+    
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return fiveSound
+          ? () => {
+              fiveSound.unloadAsync();
+            }
+          : undefined;
+      }, [fiveSound]);
+
+      const [undoSound, setUndo] = React.useState();
+    
+      async function playUndoSound() {
+        const { sound } = await Audio.Sound.createAsync( require('../assets/undo.mp3')
+        );
+        setUndo(sound);
+    
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return undoSound
+          ? () => {
+              undoSound.unloadAsync();
+            }
+          : undefined;
+      }, [undoSound]);
 
 
     const Undo = () => {
@@ -198,13 +225,26 @@ const Table__one = () => {
         
     }
 
+
     const animation = React.useRef(null);
     React.useEffect(() => {
         if (t == 40) {
             animation.current?.play()
             playWinSound()
+            setTimeout(() => setResetModal(true), 3000)
         }
       }, [t])
+
+
+    React.useEffect(() => {
+        if (t >= 35 && t < 40) {
+            playFiveSound()
+        }
+      }, [t])
+
+
+    
+
 
     const cinco = React.useRef(null);
 
@@ -221,7 +261,7 @@ const Table__one = () => {
         </TouchableOpacity>
         <Modal
         
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={resetModal}
         onRequestClose={() => {
@@ -231,7 +271,7 @@ const Table__one = () => {
             <View style={{ flex: 1, display: 'flex', justifyContent:'center', alignItems: 'center', backgroundColor: 'black', opacity: .9 }}>
                     <TouchableOpacity style={[styles.submit, {marginBottom: 10, width: 150, height: 50}]} onPress={
                         () => {
-                            
+                            navigation.replace('Entry')
                         }
                     }>
                         <Text style={{color: 'black', fontSize: 18}}>Reset</Text>
@@ -239,12 +279,12 @@ const Table__one = () => {
                     <TouchableOpacity style={[styles.submit, {backgroundColor: 'black', borderColor: 'red', borderStyle:'solid', borderWidth:1, width: 100}]} onPress={() => {setResetModal(false)}}>
                         <Text style={{color: 'red'}}>Cancel</Text>
                     </TouchableOpacity>
-                </View>
+            </View>
         </Modal>
         
         <Modal
         
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -278,7 +318,10 @@ const Table__one = () => {
         <View style={s.tableWrap}>
             <View style={s.totalWrap}>
                 <Text style={{color: 'hotpink', fontWeight: 'bold',fontSize: 20,}}>[ {t} ] </Text>
-                <Text onPress={() => setModalVisible(!modalVisible)} style={s.total}>{teamName}</Text>
+                <TouchableOpacity style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'row'}} onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={s.total}>{teamName} </Text>
+                    <Feather style={{opacity: 0.5, marginBottom: -4}} name="edit-3" size={14} color="white" />
+                </TouchableOpacity>
             </View>
                 <View style={{width: 200, height: 10, marginVertical: 13}}>
                     <LottieView
@@ -309,7 +352,7 @@ const Table__one = () => {
                         source={require('../assets/cinco.json')}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={Undo} style={s.undo}>
+                <TouchableOpacity onPress={() => {Undo(); playUndoSound()}} style={s.undo}>
                     <Feather name="x-circle" size={45} color="red" />
                 </TouchableOpacity>
             </View>

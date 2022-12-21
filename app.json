@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "rsheem",
-    "slug": "rsheem",
-    "version": "1.0.0",
+    "name": "Rsheem",
+    "slug": "RsheemRonda",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,16 +23,17 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#000000"
       },
-      "package": "com.marux.rsheemv2"
+      "package": "maruxDevs.rsheem",
+      "versionCode": 12
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "063949c2-18d4-4b49-8ffc-f4883e60c5e3"
+        "projectId": "13a07f7c-969d-4c02-a9db-8f389a0cc575"
       }
     }
   }

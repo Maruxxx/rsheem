@@ -90,6 +90,7 @@ export const s = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20,
+        textAlign: 'center'
     },
 
     totalWrap:{

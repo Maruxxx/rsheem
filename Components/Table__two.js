@@ -3,7 +3,7 @@ import React from 'react'
 import {styles} from './css/modal'
 import {s} from './css/t__2'
 import Square from './Square'
-import { Feather } from '@expo/vector-icons';
+import { Feather, Fontisto } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 
@@ -11,9 +11,7 @@ import LottieView from 'lottie-react-native';
 
 import { Audio } from 'expo-av';
 
-const Table__two = () => {
-
-    const [teamb, setTeamB] = React.useState('Team B')
+const Table__two = ({navigation}) => {
 
     const [count1, setCount1] = React.useState(0)
     const [count2, setCount2] = React.useState(0)
@@ -30,66 +28,34 @@ const Table__two = () => {
     const [sound, setSound] = React.useState();
 
     async function playSound() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync( require('../assets/01.mp3')
         );
         setSound(sound);
     
-        console.log('Playing Sound');
         await sound.playAsync();
     }
 
       React.useEffect(() => {
         return sound
           ? () => {
-              console.log('Unloading Sound');
               sound.unloadAsync();
             }
           : undefined;
       }, [sound]);
     
-      
-      
-      
-      const [sound2, setSound2] = React.useState();
-
-      async function playSound2() {
-        console.log('Loading Sound');
-        const { sound } = await Audio.Sound.createAsync( require('../assets/02.mp3')
-        );
-        setSound2(sound);
-    
-        console.log('Playing Sound');
-        await sound.playAsync();
-    }
-
-      React.useEffect(() => {
-        return sound2
-          ? () => {
-              console.log('Unloading Sound');
-              sound2.unloadAsync();
-            }
-          : undefined;
-      }, [sound2]);
-    
-      
-      
       const [sound5, setSound5] = React.useState();
     
       async function playSound5() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync( require('../assets/05.mp3')
         );
         setSound5(sound);
     
-        console.log('Playing Sound');
         await sound.playAsync();
     }
 
       React.useEffect(() => {
         return sound5
           ? () => {
-              console.log('Unloading Sound');
               sound5.unloadAsync();
             }
           : undefined;
@@ -100,23 +66,56 @@ const Table__two = () => {
       const [winSound, setWinSound] = React.useState();
     
       async function playWinSound() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync( require('../assets/win.mp3')
         );
         setWinSound(sound);
     
-        console.log('Playing Sound');
         await sound.playAsync();
     }
 
       React.useEffect(() => {
         return winSound
           ? () => {
-              console.log('Unloading Sound');
               winSound.unloadAsync();
             }
           : undefined;
       }, [winSound]);
+
+      const [fiveSound, setFive] = React.useState();
+    
+      async function playFiveSound() {
+        const { sound } = await Audio.Sound.createAsync( require('../assets/35.mp3')
+        );
+        setFive(sound);
+    
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return fiveSound
+          ? () => {
+              fiveSound.unloadAsync();
+            }
+          : undefined;
+      }, [fiveSound]);
+
+      const [undoSound, setUndo] = React.useState();
+    
+      async function playUndoSound() {
+        const { sound } = await Audio.Sound.createAsync( require('../assets/undo.mp3')
+        );
+        setUndo(sound);
+    
+        await sound.playAsync();
+    }
+
+      React.useEffect(() => {
+        return undoSound
+          ? () => {
+              undoSound.unloadAsync();
+            }
+          : undefined;
+      }, [undoSound]);
 
     const Undo = () => {
         if (count1 == 0) {
@@ -224,20 +223,57 @@ const Table__two = () => {
         if (t == 40) {
             animation.current?.play()
             playWinSound()
+            setTimeout(() => setResetModal(true), 3000)
+        }
+      }, [t])
+
+      React.useEffect(() => {
+        if (t >= 35 && t < 40) {
+            playFiveSound()
         }
       }, [t])
 
 
-      const cinco = React.useRef(null);
 
-      const [modalVisible, setModalVisible] = React.useState(false)
+
+    const cinco = React.useRef(null);
+
+    const [modalVisible, setModalVisible] = React.useState(false)
     const [teamName, setTeamName] = React.useState('Team B')
+
+    const [resetModal, setResetModal] = React.useState(false)
     
     return (
     <View style={s.container}>
+         <TouchableOpacity onPress={() => {setResetModal(!resetModal)}} style={s.reset}>
+            <Fontisto style={{display:'none'}} name="undo" size={24} color="white" />
+        </TouchableOpacity>
         <Modal
         
-        animationType="slide"
+        animationType="fade"
+        transparent={true}
+        visible={resetModal}
+        onRequestClose={() => {
+          setResetModal(false);
+        }}
+        >
+            <View style={{ flex: 1, display: 'flex', justifyContent:'center', alignItems: 'center', backgroundColor: 'black', opacity: .9 }}>
+                    <TouchableOpacity style={[styles.submit, {marginBottom: 10, width: 150, height: 50}]} onPress={
+                        () => {
+                            navigation.replace('Entry')
+                        }
+                    }>
+                        <Text style={{color: 'black', fontSize: 18}}>Reset</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.submit, {backgroundColor: 'black', borderColor: 'red', borderStyle:'solid', borderWidth:1, width: 100}]} onPress={() => {setResetModal(false)}}>
+                        <Text style={{color: 'red'}}>Cancel</Text>
+                    </TouchableOpacity>
+            </View>
+        </Modal>
+        
+        <Modal
+        
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -271,7 +307,10 @@ const Table__two = () => {
       <View style={s.tableWrap}>
         <View style={s.totalWrap}>
             <Text style={{color: 'cyan', fontWeight: 'bold',fontSize: 20,}}>[ {t} ] </Text>
-            <Text onPress={() => setModalVisible(!modalVisible)} style={s.total}>{teamName}</Text>
+            <TouchableOpacity style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'row'}} onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={s.total}>{teamName} </Text>
+                    <Feather style={{opacity: 0.5, marginBottom: -4}} name="edit-3" size={14} color="white" />
+                </TouchableOpacity>
         </View>
             <View style={{width: 200, height: 10, marginVertical: 13}}>
                 <LottieView
@@ -303,7 +342,7 @@ const Table__two = () => {
                     source={require('../assets/cinco.json')}
                 />
             </TouchableOpacity>
-            <TouchableOpacity onPress={Undo} style={s.undo}>
+            <TouchableOpacity onPress={() => {Undo(); playUndoSound()}} style={s.undo}>
                 <Feather name="x-circle" size={45} color="red" />
             </TouchableOpacity>
         </View>
